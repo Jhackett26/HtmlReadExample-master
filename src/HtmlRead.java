@@ -11,26 +11,42 @@ public class HtmlRead {
     public HtmlRead() {
 
         try {
-            URL url = new URL("https://www.milton.edu/");
+            URL url = new URL("https://en.wikipedia.org/wiki/Milton_Academy");
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(url.openStream())
             );
             String line;
             while ( (line = reader.readLine()) != null ) {
-                if(line.contains("https://")) {
+                if(line.contains("href")) {
                     int end;
-                    int start =line.indexOf("https://");
-                    String link = line.substring(start);
-                    if((end = link.indexOf("\"")) >0) {
+                    System.out.println(line);
+                    String link = "";
+                    if (line.contains("href=\'//")){
+                        int start = line.indexOf("href=\'//")+8;
+                        link = line.substring(start);
+                    }
+
+                    else if (line.contains("href=\'")){
+                        int start = line.indexOf("href=\'")+6;
+                        link = line.substring(start);
+                    }
+                    else if (line.contains("href=\"")){
+                        int start = line.indexOf("href=\"")+6;
+                        link = line.substring(start);
+                    }
+
+
+
+                    if((end = link.indexOf("\"")) >5) {
                         link = link.substring(0,end);
                     }
-                    if((end = link.indexOf("'")) >0) {
+                    if((end = link.indexOf("'")) >5) {
                         link = link.substring(0,end);
                     }
-                    if((end = link.indexOf(")")) >0) {
+                    if((end = link.indexOf(")")) >5) {
                         link = link.substring(0,end);
                     }
-                    if((end = link.indexOf(" ")) >0) {
+                    if((end = link.indexOf(" ")) >5) {
                         link = link.substring(0,end);
                     }
                     System.out.println(link);
