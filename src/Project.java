@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Scanner;
 import javax.swing.*;
 
 public class Project implements ActionListener {
@@ -76,13 +77,18 @@ public class Project implements ActionListener {
     private void showEventDemo() {
 
         JButton enterButton = new JButton("ENTER");
-
         enterButton.setActionCommand("ENTER");
 
         enterButton.addActionListener(new ButtonClickListener());
 
-
+        Scanner scanner = new Scanner(System.in);
+        String link = "";
         controlPanel.add(enterButton, BorderLayout.CENTER);
+        if(link.equals("")) {
+            statusLabel.setText("Please enter a link");
+        }
+        link = scanner.nextLine();
+        System.out.println(link);
 
         mainFrame.setVisible(true);
     }

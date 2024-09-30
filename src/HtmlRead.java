@@ -11,7 +11,7 @@ public class HtmlRead {
     public HtmlRead() {
 
         try {
-            URL url = new URL("https://en.wikipedia.org/wiki/Milton_Academy");
+            URL url = new URL("https://milton.edu");
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(url.openStream())
             );
@@ -19,7 +19,7 @@ public class HtmlRead {
             while ( (line = reader.readLine()) != null ) {
                 if(line.contains("href")) {
                     int end;
-                    System.out.println(line);
+//                    System.out.println(line);
                     String link = "";
                     if (line.contains("href=\'//")){
                         int start = line.indexOf("href=\'//")+8;
