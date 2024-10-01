@@ -1,12 +1,13 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.*;
 
 public class Project implements ActionListener {
     private JFrame mainFrame;
-    private JLabel statusLabel;
+    private JPanel printArea;
     private JPanel controlPanel;
     private JMenuBar mb;
     private JMenu file, edit, help;
@@ -15,6 +16,8 @@ public class Project implements ActionListener {
     private int WIDTH = 800;
     private int HEIGHT = 700;
     String link = "";
+    int rows = 1;
+    ArrayList<String> links = new ArrayList<String>();
 
 
 
@@ -29,8 +32,10 @@ public class Project implements ActionListener {
 
     private void prepareGUI() {
         mainFrame = new JFrame("John learning SWING");
+        printArea = new JPanel();
         mainFrame.setSize(WIDTH, HEIGHT);
         mainFrame.setLayout(new GridLayout(3, 1));
+        printArea.setLayout(new GridLayout(rows,1));
 
         //menu at top
         cut = new JMenuItem("cut");
@@ -61,8 +66,6 @@ public class Project implements ActionListener {
         mainFrame.add(ta);//add typing area
         mainFrame.setJMenuBar(mb); //set menu bar
 
-        statusLabel = new JLabel("", JLabel.CENTER);
-        statusLabel.setSize(350, 100);
 
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -73,7 +76,7 @@ public class Project implements ActionListener {
         controlPanel.setLayout(new BorderLayout()); //set the layout of the pannel
 
         mainFrame.add(controlPanel);
-        mainFrame.add(statusLabel);
+        mainFrame.add(printArea);
         mainFrame.setVisible(true);
     }
 
@@ -88,7 +91,7 @@ public class Project implements ActionListener {
 
         controlPanel.add(enterButton, BorderLayout.CENTER);
         if (link.isEmpty()) {
-            statusLabel.setText("Please enter a link");
+            printArea.add("Please enter a link");
         }
         mainFrame.setVisible(true);
     }
@@ -113,9 +116,11 @@ public class Project implements ActionListener {
                 link = ta.getText();
             }
             if (!link.isEmpty()){
-                statusLabel.setText(link);
+                printArea.add(link);
             }
-            statusLabel.setText(html.readLink(link));
+            printArea.add(html.readLink(link));
+            links.add(link);
+            System.out.println(links);
         }
     }
 }
