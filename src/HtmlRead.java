@@ -10,17 +10,20 @@ public class HtmlRead {
     }
 
     public HtmlRead() {
+    }
+    public String readLink(String urlParam) {
+        String link = "";
         try {
-            URL url = new URL("https://www.milton.edu/");
+            URL url = new URL(urlParam);
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(url.openStream())
             );
 
             String line;
-            while ( (line = reader.readLine()) != null ) {
-                while(line.contains("href")){
+            String keyword = "";
+            while ((line = reader.readLine()) != null) {
+                while (line.contains("href") && line.contains(keyword)) {
                     int end;
-                    String link = "";
                     if (line.contains("href=\'//")) {
                         int start = line.indexOf("href=\'//") + 8;
                         link = line.substring(start);
@@ -37,27 +40,26 @@ public class HtmlRead {
                     }
 
 
-                    if((end = link.indexOf("\"")) >5) {
-                        link = link.substring(0,end);
+                    if ((end = link.indexOf("\"")) > 5) {
+                        link = link.substring(0, end);
                     }
-                    if((end = link.indexOf("'")) >5) {
-                        link = link.substring(0,end);
+                    if ((end = link.indexOf("'")) > 5) {
+                        link = link.substring(0, end);
                     }
-                    if((end = link.indexOf(")")) >5) {
-                        link = link.substring(0,end);
+                    if ((end = link.indexOf(")")) > 5) {
+                        link = link.substring(0, end);
                     }
-                    if((end = link.indexOf(" ")) >5) {
-                        link = link.substring(0,end);
+                    if ((end = link.indexOf(" ")) > 5) {
+                        link = link.substring(0, end);
                     }
-//                    System.out.println(link);
                     System.out.println(link);
                 }
             }
             reader.close();
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
-
+        return link;
     }
 
 }
