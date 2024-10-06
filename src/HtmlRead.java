@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 public class HtmlRead {
 
@@ -11,8 +12,9 @@ public class HtmlRead {
 
     public HtmlRead() {
     }
-    public String readLink(String urlParam) {
+    public ArrayList readLink(String urlParam) {
         String link = "";
+        ArrayList<String> links = new ArrayList<String>();
         try {
             URL url = new URL(urlParam);
             BufferedReader reader = new BufferedReader(
@@ -52,14 +54,15 @@ public class HtmlRead {
                     if ((end = link.indexOf(" ")) > 5) {
                         link = link.substring(0, end);
                     }
-                    System.out.println(link);
+                    links.add(link);
+
                 }
             }
             reader.close();
         } catch (Exception ex) {
             System.out.println(ex);
         }
-        return link;
+        return links;
     }
 
 }

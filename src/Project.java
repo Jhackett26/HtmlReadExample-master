@@ -1,13 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.*;
 
 public class Project implements ActionListener {
     private JFrame mainFrame;
-    private JPanel printArea;
+    private JTextArea printArea;
     private JPanel controlPanel;
     private JMenuBar mb;
     private JMenu file, edit, help;
@@ -17,7 +16,7 @@ public class Project implements ActionListener {
     private int HEIGHT = 700;
     String link = "";
     int rows = 1;
-    ArrayList<String> links = new ArrayList<String>();
+    ArrayList printedLink = new ArrayList<>();
 
 
 
@@ -32,10 +31,12 @@ public class Project implements ActionListener {
 
     private void prepareGUI() {
         mainFrame = new JFrame("John learning SWING");
-        printArea = new JPanel();
+        printArea = new JTextArea();
         mainFrame.setSize(WIDTH, HEIGHT);
         mainFrame.setLayout(new GridLayout(3, 1));
-        printArea.setLayout(new GridLayout(rows,1));
+        JScrollPane scrollPane = new JScrollPane(printArea);
+        printArea.setLineWrap(true);
+        printArea.setWrapStyleWord(true);
 
         //menu at top
         cut = new JMenuItem("cut");
@@ -84,6 +85,7 @@ public class Project implements ActionListener {
 
         JButton enterButton = new JButton("ENTER");
         enterButton.setActionCommand("ENTER");
+        JLabel defaultText = new JLabel("Please Enter a Link");
 
         enterButton.addActionListener(new ButtonClickListener());
 
@@ -91,7 +93,7 @@ public class Project implements ActionListener {
 
         controlPanel.add(enterButton, BorderLayout.CENTER);
         if (link.isEmpty()) {
-            printArea.add("Please enter a link");
+            printArea.add(defaultText);
         }
         mainFrame.setVisible(true);
     }
@@ -114,13 +116,11 @@ public class Project implements ActionListener {
             HtmlRead html = new HtmlRead();
             if (command.equals("ENTER")) {
                 link = ta.getText();
+                printedLink = html.readLink(link);
+                for(int i = 0;i<printedLink.size();i++){
+                    printArea.append(printedLink.get(i)+"\n");
+                }
             }
-            if (!link.isEmpty()){
-                printArea.add(link);
-            }
-            printArea.add(html.readLink(link));
-            links.add(link);
-            System.out.println(links);
         }
     }
 }
