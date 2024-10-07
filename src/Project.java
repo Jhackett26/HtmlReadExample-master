@@ -33,9 +33,9 @@ public class Project implements ActionListener {
         mainFrame = new JFrame("John learning SWING");
         printArea = new JTextArea();
         mainFrame.setSize(WIDTH, HEIGHT);
-        mainFrame.setLayout(new GridLayout(2, 1));
+        mainFrame.setLayout(new GridLayout(1, 2));
         JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayout(1,3));
+        panel1.setLayout(new GridLayout(3,1));
         JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayout(2,1));
         JPanel panel3 = new JPanel();
@@ -75,8 +75,11 @@ public class Project implements ActionListener {
         mainFrame.add(mb);  //add menu bar
         mainFrame.add(panel1);
         panel1.add(panel2);
+        panel1.add(panel3);
         panel2.add(taURL);//add typing area
         panel2.add(URLlabel);
+        panel3.add(taSearchTerm);
+        panel3.add(SearchTermLabel);
         mainFrame.setJMenuBar(mb); //set menu bar
         printArea.setEditable(false);
         JScrollPane scrollPanel = new JScrollPane(printArea);
@@ -89,9 +92,7 @@ public class Project implements ActionListener {
         controlPanel = new JPanel();
         controlPanel.setLayout(new BorderLayout());
         panel1.add(controlPanel);
-        panel1.add(panel3);
-        panel3.add(taSearchTerm);
-        panel3.add(SearchTermLabel);
+
         mainFrame.add(scrollPanel);
         mainFrame.setVisible(true);
 
