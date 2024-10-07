@@ -33,8 +33,9 @@ public class Project implements ActionListener {
         mainFrame = new JFrame("John learning SWING");
         printArea = new JTextArea();
         mainFrame.setSize(WIDTH, HEIGHT);
-        mainFrame.setLayout(new GridLayout(3, 1));
-        JScrollPane scrollPane = new JScrollPane(printArea);
+        mainFrame.setLayout(new GridLayout(2, 1));
+        JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridLayout(2,1));
         printArea.setLineWrap(true);
         printArea.setWrapStyleWord(true);
 
@@ -64,8 +65,10 @@ public class Project implements ActionListener {
         ta = new JTextArea();
         ta.setBounds(50, 5, WIDTH - 100, HEIGHT - 50);
         mainFrame.add(mb);  //add menu bar
-        mainFrame.add(ta);//add typing area
+        mainFrame.add(panel1);
+        panel1.add(ta);//add typing area
         mainFrame.setJMenuBar(mb); //set menu bar
+        JScrollPane scrollPanel = new JScrollPane(printArea);
 
 
         mainFrame.addWindowListener(new WindowAdapter() {
@@ -74,16 +77,16 @@ public class Project implements ActionListener {
             }
         });
         controlPanel = new JPanel();
-        controlPanel.setLayout(new BorderLayout()); //set the layout of the pannel
-
-        mainFrame.add(controlPanel);
-        mainFrame.add(printArea);
+        controlPanel.setLayout(new BorderLayout());
+        panel1.add(controlPanel);
+        mainFrame.add(scrollPanel);
         mainFrame.setVisible(true);
+
     }
 
     private void showEventDemo() {
 
-        JButton enterButton = new JButton("ENTER");
+        JButton enterButton = new JButton("ENTER URL");
         enterButton.setActionCommand("ENTER");
         JLabel defaultText = new JLabel("Please Enter a Link");
 
