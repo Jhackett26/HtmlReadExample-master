@@ -12,7 +12,7 @@ public class HtmlRead {
 
     public HtmlRead() {
     }
-    public ArrayList readLink(String urlParam) {
+    public ArrayList readLink(String urlParam, String filerTerm) {
         String link = "";
         ArrayList<String> links = new ArrayList<String>();
         try {
@@ -54,7 +54,9 @@ public class HtmlRead {
                     if ((end = link.indexOf(" ")) > 5) {
                         link = link.substring(0, end);
                     }
-                    links.add(link);
+                    if(link.contains(filerTerm)) {
+                        links.add(link);
+                    }
 
                 }
             }

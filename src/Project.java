@@ -11,11 +11,11 @@ public class Project implements ActionListener {
     private JMenuBar mb;
     private JMenu file, edit, help;
     private JMenuItem cut, copy, paste, selectAll;
-    private JTextArea ta; //typing area
+    private JTextArea taURL; //typing area
+    private JTextArea taSearchTerm;
     private int WIDTH = 800;
     private int HEIGHT = 700;
     String link = "";
-    int rows = 1;
     ArrayList printedLink = new ArrayList<>();
 
 
@@ -35,9 +35,15 @@ public class Project implements ActionListener {
         mainFrame.setSize(WIDTH, HEIGHT);
         mainFrame.setLayout(new GridLayout(2, 1));
         JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayout(2,1));
+        panel1.setLayout(new GridLayout(1,3));
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(2,1));
+        JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridLayout(2,1));
         printArea.setLineWrap(true);
         printArea.setWrapStyleWord(true);
+        JLabel URLlabel = new JLabel("Please enter a valid URL above", JLabel.CENTER);
+        JLabel SearchTermLabel = new JLabel("Please enter a search term above", JLabel.CENTER);
 
         //menu at top
         cut = new JMenuItem("cut");
@@ -62,14 +68,18 @@ public class Project implements ActionListener {
         mb.add(help);
         //end menu at top
 
-        ta = new JTextArea();
-        ta.setBounds(50, 5, WIDTH - 100, HEIGHT - 50);
+        taURL = new JTextArea();
+        taURL.setBounds(50, 5, WIDTH - 100, HEIGHT - 50);
+        taSearchTerm = new JTextArea();
+        taSearchTerm.setBounds(50, 5, WIDTH - 100, HEIGHT - 50);
         mainFrame.add(mb);  //add menu bar
         mainFrame.add(panel1);
-        panel1.add(ta);//add typing area
+        panel1.add(panel2);
+        panel2.add(taURL);//add typing area
+        panel2.add(URLlabel);
         mainFrame.setJMenuBar(mb); //set menu bar
+        printArea.setEditable(false);
         JScrollPane scrollPanel = new JScrollPane(printArea);
-
 
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -79,6 +89,9 @@ public class Project implements ActionListener {
         controlPanel = new JPanel();
         controlPanel.setLayout(new BorderLayout());
         panel1.add(controlPanel);
+        panel1.add(panel3);
+        panel3.add(taSearchTerm);
+        panel3.add(SearchTermLabel);
         mainFrame.add(scrollPanel);
         mainFrame.setVisible(true);
 
@@ -86,31 +99,28 @@ public class Project implements ActionListener {
 
     private void showEventDemo() {
 
-        JButton enterButton = new JButton("ENTER URL");
+        JButton enterButton = new JButton("ENTER URL & SEARCH TERM");
+        printArea.removeAll();
         enterButton.setActionCommand("ENTER");
-        JLabel defaultText = new JLabel("Please Enter a Link");
+        String defaultText = "Your links will show up here when you enter a URL and search term: \n \n";
 
         enterButton.addActionListener(new ButtonClickListener());
 
-        Scanner scanner = new Scanner(System.in);
-
         controlPanel.add(enterButton, BorderLayout.CENTER);
-        if (link.isEmpty()) {
-            printArea.add(defaultText);
-        }
+        printArea.append(defaultText);
         mainFrame.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cut)
-            ta.cut();
+            taURL.cut();
         if (e.getSource() == paste)
-            ta.paste();
+            taURL.paste();
         if (e.getSource() == copy)
-            ta.copy();
+            taURL.copy();
         if (e.getSource() == selectAll)
-            ta.selectAll();
+            taURL.selectAll();
     }
 
     private class ButtonClickListener implements ActionListener {
@@ -118,8 +128,9 @@ public class Project implements ActionListener {
             String command = e.getActionCommand();
             HtmlRead html = new HtmlRead();
             if (command.equals("ENTER")) {
-                link = ta.getText();
-                printedLink = html.readLink(link);
+                link = taURL.getText();
+                String SearchTerm = taSearchTerm.getText();
+                printedLink = html.readLink(link, SearchTerm);
                 for(int i = 0;i<printedLink.size();i++){
                     printArea.append(printedLink.get(i)+"\n");
                 }
