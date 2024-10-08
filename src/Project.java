@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 import javax.swing.*;
 
 public class Project implements ActionListener {
@@ -9,14 +8,13 @@ public class Project implements ActionListener {
     private JTextArea printArea;
     private JPanel controlPanel;
     private JMenuBar mb;
-    private JMenu file, edit, help;
     private JMenuItem cut, copy, paste, selectAll;
     private JTextArea taURL; //typing area
     private JTextArea taSearchTerm;
     private int WIDTH = 800;
     private int HEIGHT = 700;
     String link = "";
-    ArrayList printedLink = new ArrayList<>();
+    ArrayList links = new ArrayList<>();
 
 
 
@@ -30,7 +28,7 @@ public class Project implements ActionListener {
     }
 
     private void prepareGUI() {
-        mainFrame = new JFrame("John learning SWING");
+        mainFrame = new JFrame();
         printArea = new JTextArea();
         mainFrame.setSize(WIDTH, HEIGHT);
         mainFrame.setLayout(new GridLayout(1, 2));
@@ -56,22 +54,16 @@ public class Project implements ActionListener {
         selectAll.addActionListener(this);
 
         mb = new JMenuBar();
-        file = new JMenu("File");
-        edit = new JMenu("Edit");
-        help = new JMenu("Help");
-        edit.add(cut);
-        edit.add(copy);
-        edit.add(paste);
-        edit.add(selectAll);
-        mb.add(file);
-        mb.add(edit);
-        mb.add(help);
         //end menu at top
 
         taURL = new JTextArea();
         taURL.setBounds(50, 5, WIDTH - 100, HEIGHT - 50);
         taSearchTerm = new JTextArea();
         taSearchTerm.setBounds(50, 5, WIDTH - 100, HEIGHT - 50);
+        taURL.setLineWrap(true);
+        taURL.setWrapStyleWord(true);
+        taSearchTerm.setLineWrap(true);
+        taSearchTerm.setWrapStyleWord(true);
         mainFrame.add(mb);  //add menu bar
         mainFrame.add(panel1);
         panel1.add(panel2);
@@ -128,12 +120,22 @@ public class Project implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String command = e.getActionCommand();
             HtmlRead html = new HtmlRead();
-            if (command.equals("ENTER")) {
+            if (command.equals("ENTER")){
+                printArea.setText("");
                 link = taURL.getText();
-                String SearchTerm = taSearchTerm.getText();
-                printedLink = html.readLink(link, SearchTerm);
-                for(int i = 0;i<printedLink.size();i++){
-                    printArea.append(printedLink.get(i)+"\n");
+                if(!(link.isEmpty())){
+                    String SearchTerm = taSearchTerm.getText();
+                    links = html.readLink(link, SearchTerm);
+                    if (!links.isEmpty()) {
+                        for (int i = 0; i < links.size(); i++) {
+                            printArea.append(links.get(i) + "\n");
+                        }
+                    } else {
+                        printArea.append("Either no links meet your parameters or you have entered an invalid link. \n");
+                    }
+                }
+                else{
+                    printArea.append("Please enter a link. \n");
                 }
             }
         }

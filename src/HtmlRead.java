@@ -15,6 +15,7 @@ public class HtmlRead {
     public ArrayList readLink(String urlParam, String filerTerm) {
         String link = "";
         ArrayList<String> links = new ArrayList<String>();
+        links.clear();
         try {
             URL url = new URL(urlParam);
             BufferedReader reader = new BufferedReader(
